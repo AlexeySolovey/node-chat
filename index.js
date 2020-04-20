@@ -3,13 +3,13 @@ var app = express();
 var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
 
-server.listen(3333);
+server.listen(80);
 
 app.get("/", function(request, respons) {
   respons.sendFile(__dirname + "/index.html");
 });
 
-console.log("web site http://localhost:3333/ started");
+console.log("web site http://localhost:80/ started");
 
 users = [];
 
