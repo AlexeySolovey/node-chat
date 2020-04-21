@@ -98,10 +98,7 @@
     <script>
       $(function() {
 
-        // start socket
-        var socket = io.connect();
-        var allMess = $("all-mess");
-        $("#send").on("click", function() {
+        function sendMessFunc(){
           let icon = $('.icons__item.active').data('icon');
           let mess = $("#user").val();
 
@@ -115,7 +112,23 @@
           } else {
             alert('Please, choose your icon or type a message!');
           }
+        }
+
+
+        // start socket
+        var socket = io.connect();
+        var allMess = $("all-mess");
+
+        
+        
+        
+        $("#user").keyup(function(event){
+          if(event.keyCode == 13){
+            sendMessFunc();
+          }
         });
+
+        $("#send").on("click", sendMessFunc);
 
         socket.on("add msg", function(data) {
           console.log(data);
