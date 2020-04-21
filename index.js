@@ -2,14 +2,15 @@ var express = require("express");
 var app = express();
 var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
+const PORT = process.env.PORT || 80
 
-server.listen(80);
+server.listen(PORT);
 
 app.get("/", function(request, respons) {
   respons.sendFile(__dirname + "/index.html");
 });
 
-console.log("web site http://localhost:80/ started");
+console.log(`web site http://localhost:${PORT}/ started`);
 
 users = [];
 
