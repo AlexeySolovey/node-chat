@@ -6,6 +6,8 @@ const PORT = process.env.PORT || 80
 
 server.listen(PORT);
 
+app.use('/public', express.static('public'));
+
 app.get("/", function(request, respons) {
   respons.sendFile(__dirname + "/index.html");
 });
@@ -13,7 +15,6 @@ app.get("/", function(request, respons) {
 console.log(`web site http://localhost:${PORT}/ started`);
 
 users = [];
-
 connections = [];
 
 io.sockets.on("connection", function(socket) {
@@ -25,13 +26,15 @@ io.sockets.on("connection", function(socket) {
     connections.splice(connections.indexOf(socket), 1);
   });
 
-  socket.on("send Inna", function(data) {
+  socket.on("send msg", function(data) {
     console.log(data);
-    io.sockets.emit("add msg Inna", { msg: data });
-  });
+    let side;
+    for(let i=0; i < connections.length; i++) {
+      if(connections[i].id == socket.id) {
+        side = i ? 'left' : 'right';
+      }
+    }
 
-  socket.on("send Alex", function(data) {
-    console.log(data);
-    io.sockets.emit("add msg Alex", { msg: data });
+    io.sockets.emit("add msg", { msg: data.msg, side, class: data.class });
   });
 });
